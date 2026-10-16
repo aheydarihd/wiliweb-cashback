@@ -1,0 +1,8 @@
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/.github/
+!/source/
+/source/*
+!/source/wiliweb-cashback/

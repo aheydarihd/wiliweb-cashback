@@ -1,0 +1,31 @@
+name: Publish plugin release
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate version and PHP
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          grep -Fq " * Version: $VERSION" source/wiliweb-cashback/wiliweb-cashback.php
+          grep -Fq "define('WWCB_VERSION', '$VERSION');" source/wiliweb-cashback/wiliweb-cashback.php
+          grep -Fxq "Stable tag: $VERSION" source/wiliweb-cashback/readme.txt
+          find source/wiliweb-cashback -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Build installable package
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir dist
+          cd source
+          zip -qr "../dist/wiliweb-cashback-$VERSION.zip" wiliweb-cashback
+          cd ../dist
+          sha256sum "wiliweb-cashback-$VERSION.zip" > SHA256SUMS.txt
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS.txt --title "WiliWeb Cashback $GITHUB_REF_NAME" --generate-notes
