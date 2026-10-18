@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WiliWeb Cashback | کش‌بک و کیف پول
  * Description: کش‌بک ووکامرس با انقضای مستقل، گزارش کیف پول، مدیریت اعتبار کاربران و پیامک IPPanel.
- * Version: 0.1.6
+ * Version: 0.1.7
  * Update URI: https://github.com/aheydarihd/wiliweb-cashback
  * Author: WiliWeb
  * Author URI: https://wiliweb.com
@@ -15,7 +15,7 @@
  * License: GPL-2.0-or-later
  */
 defined('ABSPATH') || exit;
-define('WWCB_VERSION', '0.1.6');
+define('WWCB_VERSION', '0.1.7');
 define('WWCB_FILE', __FILE__);
 define('WWCB_DIR', __DIR__.'/');
 add_action('before_woocommerce_init', static function () {
